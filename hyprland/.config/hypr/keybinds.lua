@@ -40,7 +40,15 @@ for i = 1, 10 do
     hl.bind("SUPER + SHIFT + " .. ws, function()
         hl.dispatch(hl.dsp.window.move({ workspace = i, follow = true }))
     end, { description = "Workspace: Move to " .. i })
+
+    hl.bind("SUPER + ALT + " .. ws, function()
+        hl.dispatch(hl.dsp.window.move({ workspace = i, follow = false }))
+    end, { description = "Workspace: Send to " .. i })
 end
+
+-- Special workspace
+hl.bind("SUPER + S", hl.dsp.workspace.toggle_special(), { description = "Workspace: Toggle Special" })
+hl.bind("SUPER + ALT + S", hl.dsp.window.move({ workspace = "special", follow = false }), { description = "Window: Send to Special" })
 
 -- Resize
 hl.bind("SUPER + CTRL + H", hl.dsp.layout("splitratio -0.1"), { repeating = true, description = "Layout: Shrink" })

@@ -9,6 +9,34 @@ hl.config({
             natural_scroll = true,
         },
     },
+    animations = {
+        enabled = true,
+    },
+})
+
+-- Preload kitty for faster terminal opening
+hl.on("hyprland.start", function()
+    hl.exec_cmd("kitty")
+end)
+
+-- Special workspace animations (slide from bottom)
+hl.curve("specialDecel", {
+    type = "bezier",
+    points = { { 0.05, 0.7 }, { 0.1, 1 } },
+})
+hl.animation({
+    leaf = "specialWorkspaceIn",
+    enabled = true,
+    speed = 3,
+    bezier = "specialDecel",
+    style = "slidevert",
+})
+hl.animation({
+    leaf = "specialWorkspaceOut",
+    enabled = true,
+    speed = 3,
+    bezier = "specialDecel",
+    style = "slidevert",
 })
 
 require("keybinds")
