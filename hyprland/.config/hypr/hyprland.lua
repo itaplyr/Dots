@@ -17,6 +17,9 @@ hl.config({
 -- Preload kitty for faster terminal opening
 hl.on("hyprland.start", function()
     hl.exec_cmd("kitty")
+    -- Clipboard history
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
 end)
 
 -- Special workspace animations (slide from bottom)
@@ -40,3 +43,4 @@ hl.animation({
 })
 
 require("keybinds")
+require("layers")

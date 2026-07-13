@@ -12,6 +12,7 @@ hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true, description
 -- Launchers
 hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"), { description = "App: Terminal" })
 hl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/toggle-fuzzel.sh"), { description = "App: Launcher" })
+hl.bind("SUPER + V", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/clipboard-manager.sh"), { description = "App: Clipboard" })
 
 -- Focus movement (vim-style)
 hl.bind("SUPER + H", hl.dsp.focus({ direction = "l" }), { description = "Focus: Left" })
