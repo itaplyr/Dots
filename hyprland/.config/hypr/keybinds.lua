@@ -55,3 +55,7 @@ hl.bind("SUPER + ALT + S", hl.dsp.window.move({ workspace = "special", follow = 
 -- Resize
 hl.bind("SUPER + CTRL + H", hl.dsp.layout("splitratio -0.1"), { repeating = true, description = "Layout: Shrink" })
 hl.bind("SUPER + CTRL + L", hl.dsp.layout("splitratio +0.1"), { repeating = true, description = "Layout: Grow" })
+
+-- AGS Sidebars
+hl.bind("SUPER + A", hl.dsp.exec_cmd("ags toggle sidebar-left"), { description = "Shell: Toggle Left Sidebar" })
+hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd("ags toggle sidebar-right"), { description = "Shell: Toggle Right Sidebar" })

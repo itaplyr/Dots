@@ -96,6 +96,18 @@ main() {
     if [ -d "$BACKUP_DIR" ]; then
         warn "Backups saved to: $BACKUP_DIR"
     fi
+
+    # Kill AGS and reload Hyprland to restart it
+    if pgrep -f "ags" >/dev/null 2>&1; then
+        info "Restarting AGS..."
+        pkill -f "ags" 2>/dev/null || true
+        sleep 1
+    fi
+
+    if command -v hyprctl >/dev/null 2>&1; then
+        info "Reloading Hyprland..."
+        hyprctl reload
+    fi
 }
 
 main "$@"

@@ -1,0 +1,63 @@
+/* Bar */
+window#bar {
+  background: rgba(0, 0, 0, 0.9);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.workspaces {
+  margin: 0 10px;
+}
+
+.workspace {
+  padding: 0 8px;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 30px;
+}
+
+.workspace.active {
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff;
+}
+
+.workspace.occupied {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.clock {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Sidebars */
+.sidebar {
+  background: rgba(0, 0, 0, 0.95);
+  padding: 20px;
+}
+
+.sidebar-left {
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-right {
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sidebar button {
+  padding: 8px 12px;
+  margin: 4px 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+}
+
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

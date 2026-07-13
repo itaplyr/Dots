@@ -20,6 +20,8 @@ hl.on("hyprland.start", function()
     -- Clipboard history
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    -- AGS shell
+    hl.exec_cmd("$HOME/.config/hypr/scripts/start-ags.sh")
 end)
 
 -- Special workspace animations (slide from bottom)
