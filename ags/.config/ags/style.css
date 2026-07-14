@@ -6,26 +6,40 @@ window#bar {
 
 .workspaces {
   margin: 0 10px;
+  spacing: 8px;
 }
 
 .workspace {
-  padding: 0 8px;
-  color: rgba(255, 255, 255, 0.5);
-  min-width: 30px;
+  min-width: 4px;
+  min-height: 4px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  outline: none;
+  box-shadow: none;
 }
 
 .workspace.active {
-  color: #ffffff;
-  border-bottom: 2px solid #ffffff;
+  background: #ffffff;
 }
 
-.workspace.occupied {
-  color: rgba(255, 255, 255, 0.8);
+.clock-container {
+  spacing: 10px;
 }
 
 .clock {
   color: #ffffff;
   font-weight: bold;
+}
+
+.clock-separator {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.clock-date {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Sidebars */
