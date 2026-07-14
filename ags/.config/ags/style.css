@@ -42,6 +42,24 @@ window#bar {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.section-separator {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.tray-icon {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.system-tray {
+  margin: 0 4px;
+}
+
+.status-icons {
+  font-family: "JetBrainsMono Nerd Font";
+  margin: 0 8px;
+}
+
 /* Sidebars */
 .sidebar {
   background: rgba(0, 0, 0, 0.95);
