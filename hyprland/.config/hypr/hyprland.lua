@@ -46,3 +46,4 @@ hl.animation({
 
 require("keybinds")
 require("layers")
+require("rules")

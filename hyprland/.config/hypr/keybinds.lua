@@ -58,4 +58,4 @@ hl.bind("SUPER + CTRL + L", hl.dsp.layout("splitratio +0.1"), { repeating = true
 
 -- AGS Sidebars
 hl.bind("SUPER + A", hl.dsp.exec_cmd("ags toggle sidebar-left"), { description = "Shell: Toggle Left Sidebar" })
-hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd("ags toggle sidebar-right"), { description = "Shell: Toggle Right Sidebar" })
+hl.bind("SUPER + N", hl.dsp.exec_cmd("ags toggle sidebar-right"), { description = "Shell: Toggle Right Sidebar" })

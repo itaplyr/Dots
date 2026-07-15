@@ -1,7 +1,7 @@
 /* Bar */
 window#bar {
   background: rgba(0, 0, 0, 0.9);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 1);
 }
 
 .workspaces {

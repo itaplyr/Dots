@@ -6,7 +6,7 @@ import SidebarRight from "./widget/SidebarRight"
 
 app.start({
   css: style,
-  instanceName: "dots",
+  instanceName: "ags",
   main() {
     app.get_monitors().map(Bar)
     SidebarLeft()
