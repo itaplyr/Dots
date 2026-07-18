@@ -1,0 +1,15 @@
+{
+    "layer": "overlay",
+    "position": "right",
+    "width": 300,
+    "exclusive": false,
+    "passthrough": false,
+    "modules-left": [
+        "clock",
+        "custom/test"
+    ],
+
+    "custom/test": {
+        "format": "Side panel"
+    }
+}

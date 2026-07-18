@@ -5,11 +5,9 @@
 
 set -euo pipefail
 
-DOTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTS_DIR="$BASE_DIR/Dots"
 CONFIG_DIR="$HOME/.config"
-AGS_DIR="$DOTS_DIR/ags/.config/ags"
-BUNDLE="/tmp/ags-bundle.js"
-PIDFILE="/tmp/ags-dev.pid"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -22,46 +20,23 @@ ok()   { echo -e "${GREEN}[ok]${NC} $1"; }
 warn() { echo -e "${YELLOW}[!]${NC} $1"; }
 err()  { echo -e "${RED}[x]${NC} $1"; }
 
-kill_ags() {
-    if [ -f "$PIDFILE" ]; then
-        local pid
-        pid=$(cat "$PIDFILE")
-        if kill -0 "$pid" 2>/dev/null; then
-            log "Killing AGS (PID: $pid)..."
-            kill -- -"$pid" 2>/dev/null || true
-            sleep 0.3
-            kill -9 -- -"$pid" 2>/dev/null || true
-        fi
-        rm -f "$PIDFILE"
-    fi
-    pkill -9 -E "gjs.*ags" 2>/dev/null || true
-    sleep 0.5
-}
-
-start_ags() {
-    log "Bundling AGS..."
-    if (cd "$AGS_DIR" && ags bundle app.ts "$BUNDLE" --gtk 4); then
-        log "Starting AGS..."
-        setsid bash "$BUNDLE" &
-        echo $! > "$PIDFILE"
-        ok "AGS running (PID: $!)"
-    else
-        err "AGS bundle failed — fix errors and save again"
-        return 1
+reload_config() {
+    local name="$1"
+    local src="$DOTS_DIR/$name/.config"
+    if [ -d "$src" ]; then
+        find "$src" -type f | while read -r file; do
+            local rel="${file#$src/}"
+            local target="$CONFIG_DIR/$rel"
+            mkdir -p "$(dirname "$target")"
+            cp "$file" "$target"
+        done
+        log "Copied $name configs"
     fi
 }
 
 reload_hyprland() {
-    for name in hyprland kitty fish fuzzel; do
-        local src="$DOTS_DIR/$name/.config"
-        if [ -d "$src" ]; then
-            find "$src" -type f | while read -r file; do
-                local rel="${file#$src/}"
-                local target="$CONFIG_DIR/$rel"
-                mkdir -p "$(dirname "$target")"
-                cp "$file" "$target"
-            done
-        fi
+    for name in hyprland kitty fish fuzzel waybar mako; do
+        reload_config "$name"
     done
     log "Reloading Hyprland..."
     hyprctl reload 2>/dev/null && ok "Hyprland reloaded" || warn "hyprctl reload failed"
@@ -74,11 +49,7 @@ on_change() {
     log "Changed: $rel"
 
     case "$file" in
-        */ags/.config/ags/*)
-            kill_ags
-            start_ags
-            ;;
-        */hyprland/*|*/kitty/*|*/fish/*|*/fuzzel/*)
+        */Dots/hyprland/*|*/Dots/kitty/*|*/Dots/fish/*|*/Dots/fuzzel/*|*/Dots/waybar/*|*/Dots/mako/*)
             reload_hyprland
             ;;
     esac
@@ -95,9 +66,6 @@ main() {
     echo "╚══════════════════════════════════════╝"
     echo ""
 
-    kill_ags
-    start_ags
-
     log "Watching for changes..."
     log "Press Ctrl+C to stop"
     echo ""
@@ -107,15 +75,13 @@ main() {
         on_change "${dir}${file}"
     done < <(inotifywait -m -r \
         -e modify,create,delete,move \
-        --include '\.(ts|tsx|lua|conf|ini|fish|sh|css)$' \
+        --include '\.(lua|conf|ini|fish|sh|css|json)$' \
         "$DOTS_DIR")
 }
 
 cleanup() {
     echo ""
     log "Stopping dev mode..."
-    kill_ags 2>/dev/null
-    rm -f "$PIDFILE"
     exit 0
 }
 trap cleanup SIGINT SIGTERM
