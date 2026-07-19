@@ -1,6 +1,3 @@
--- ── Hyprland Lua Config ────────────────────────────────────
--- Entry point: ~/.config/hypr/hyprland.lua
-
 hl.config({
     input = {
         kb_layout = "it",
@@ -13,37 +10,23 @@ hl.config({
     animations = {
         enabled = true,
     },
+    misc = {
+	initial_workspace_tracking = 2,
+    },
 })
 
--- Preload kitty for faster terminal opening
+
 hl.on("hyprland.start", function()
-    -- Clipboard history
+    
+    --// Clipboard history
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    -- AGS shell
+
+    --// General Utils
     hl.exec_cmd("waybar")
+    hl.exec_cmd("swaybg -i ~/.config/hypr/hyprland/wallpaper.png")
 end)
 
--- Special workspace animations (slide from bottom)
-hl.curve("specialDecel", {
-    type = "bezier",
-    points = { { 0.05, 0.7 }, { 0.1, 1 } },
-})
-hl.animation({
-    leaf = "specialWorkspaceIn",
-    enabled = true,
-    speed = 3,
-    bezier = "specialDecel",
-    style = "slidevert",
-})
-hl.animation({
-    leaf = "specialWorkspaceOut",
-    enabled = true,
-    speed = 3,
-    bezier = "specialDecel",
-    style = "slidevert",
-})
-
-require("keybinds")
-require("layers")
-require("rules")
+require("hyprland.keybinds")
+require("hyprland.rules")
+require("hyprland.animations")

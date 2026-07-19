@@ -1,62 +1,62 @@
 -- ── Keybinds ──────────────────────────────────────────────
--- Custom keybinds for Hyprland (Lua config)
--- SUPER+Q = close window
--- SUPER+Enter = kitty terminal
+-- Uses Hyprland Lua API (hl.bind)
 
-local M = {}
+-- Window management
+hl.bind("SUPER + Q", hl.dsp.window.close(), { description = "Window: Close" })
+hl.bind("SUPER + Escape", hl.dsp.exit(), { description = "Session: Exit" })
 
-M.bind = {
-    -- Window management
-    { "SUPER", "Q", "killactive" },
-    { "SUPER", "Escape", "exit" },
+-- Mouse window management
+hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true, description = "Window: Move" })
+hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Window: Resize" })
 
-    -- Launchers
-    { "SUPER", "Return", "exec, kitty" },
+-- Launchers
+hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"), { description = "App: Terminal" })
+hl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("$HOME/.config/hypr/hyprland/scripts/toggle-fuzzel.sh"), { description = "App: Launcher" })
+hl.bind("SUPER + V", hl.dsp.exec_cmd("$HOME/.config/hypr/hyprland/scripts/clipboard-manager.sh"), { description = "App: Clipboard" })
+hl.bind("SUPER + D", hl.dsp.exec_cmd("hyprctl layers | grep 'project-selector' && pkill -f project-selector || project-selector"), { description = "App: Project Selector" })
 
-    -- Focus movement
-    { "SUPER", "h", "movefocus, l" },
-    { "SUPER", "l", "movefocus, r" },
-    { "SUPER", "k", "movefocus, u" },
-    { "SUPER", "j", "movefocus, d" },
+-- Focus movement (vim-style)
+hl.bind("SUPER + H", hl.dsp.focus({ direction = "l" }), { description = "Focus: Left" })
+hl.bind("SUPER + L", hl.dsp.focus({ direction = "r" }), { description = "Focus: Right" })
+hl.bind("SUPER + K", hl.dsp.focus({ direction = "u" }), { description = "Focus: Up" })
+hl.bind("SUPER + J", hl.dsp.focus({ direction = "d" }), { description = "Focus: Down" })
 
-    -- Window switching
-    { "SUPER", "Tab", "overview:toggle" },
+-- Window movement
+hl.bind("SUPER + SHIFT + H", hl.dsp.window.move({ direction = "l" }), { description = "Window: Move Left" })
+hl.bind("SUPER + SHIFT + L", hl.dsp.window.move({ direction = "r" }), { description = "Window: Move Right" })
+hl.bind("SUPER + SHIFT + K", hl.dsp.window.move({ direction = "u" }), { description = "Window: Move Up" })
+hl.bind("SUPER + SHIFT + J", hl.dsp.window.move({ direction = "d" }), { description = "Window: Move Down" })
 
-    -- Workspaces
-    { "SUPER", "1", "workspace, 1" },
-    { "SUPER", "2", "workspace, 2" },
-    { "SUPER", "3", "workspace, 3" },
-    { "SUPER", "4", "workspace, 4" },
-    { "SUPER", "5", "workspace, 5" },
-    { "SUPER", "6", "workspace, 6" },
-    { "SUPER", "7", "workspace, 7" },
-    { "SUPER", "8", "workspace, 8" },
-    { "SUPER", "9", "workspace, 9" },
-    { "SUPER", "0", "workspace, 10" },
+-- Layout
+hl.bind("SUPER + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }), { description = "Window: Fullscreen" })
+hl.bind("SUPER + Space", hl.dsp.window.float({ action = "toggle" }), { description = "Window: Toggle Float" })
+hl.bind("SUPER + P", hl.dsp.window.pin(), { description = "Window: Pin" })
+hl.bind("SUPER + J", hl.dsp.layout("togglesplit"), { description = "Layout: Toggle Split" })
 
-    -- Move windows to workspaces
-    { "SUPER SHIFT", "1", "movetoworkspace, 1" },
-    { "SUPER SHIFT", "2", "movetoworkspace, 2" },
-    { "SUPER SHIFT", "3", "movetoworkspace, 3" },
-    { "SUPER SHIFT", "4", "movetoworkspace, 4" },
-    { "SUPER SHIFT", "5", "movetoworkspace, 5" },
-    { "SUPER SHIFT", "6", "movetoworkspace, 6" },
-    { "SUPER SHIFT", "7", "movetoworkspace, 7" },
-    { "SUPER SHIFT", "8", "movetoworkspace, 8" },
-    { "SUPER SHIFT", "9", "movetoworkspace, 9" },
-    { "SUPER SHIFT", "0", "movetoworkspace, 10" },
+-- Workspaces
+for i = 1, 10 do
+    local ws = i % 10
+    hl.bind("SUPER + " .. ws, function()
+        hl.dispatch(hl.dsp.focus({ workspace = i }))
+    end, { description = "Workspace: Focus " .. i })
 
-    -- Layout
-    { "SUPER", "F", "fullscreen" },
-    { "SUPER", "Space", "togglefloating" },
-    { "SUPER", "P", "pseudo" },
-    { "SUPER", "J", "togglesplit" },
+    hl.bind("SUPER + SHIFT + " .. ws, function()
+        hl.dispatch(hl.dsp.window.move({ workspace = i, follow = true }))
+    end, { description = "Workspace: Move to " .. i })
 
-    -- Resize
-    { "SUPER CTRL", "h", "resizeactive, -20 0" },
-    { "SUPER CTRL", "l", "resizeactive, 20 0" },
-    { "SUPER CTRL", "k", "resizeactive, 0 -20" },
-    { "SUPER CTRL", "j", "resizeactive, 0 20" },
-}
+    hl.bind("SUPER + ALT + " .. ws, function()
+        hl.dispatch(hl.dsp.window.move({ workspace = i, follow = false }))
+    end, { description = "Workspace: Send to " .. i })
+end
 
-return M
+-- Special workspace
+hl.bind("SUPER + S", hl.dsp.workspace.toggle_special(), { description = "Workspace: Toggle Special" })
+hl.bind("SUPER + ALT + S", hl.dsp.window.move({ workspace = "special", follow = false }), { description = "Window: Send to Special" })
+
+-- Resize
+hl.bind("SUPER + CTRL + H", hl.dsp.layout("splitratio -0.1"), { repeating = true, description = "Layout: Shrink" })
+hl.bind("SUPER + CTRL + L", hl.dsp.layout("splitratio +0.1"), { repeating = true, description = "Layout: Grow" })
+
+-- AGS Sidebars
+hl.bind("SUPER + A", hl.dsp.exec_cmd("~/.config/waybar/toggle-sidepanel.sh"), { description = "Shell: Toggle Left Sidebar" })
+hl.bind("SUPER + N", hl.dsp.exec_cmd("ags toggle sidebar-right"), { description = "Shell: Toggle Right Sidebar" })

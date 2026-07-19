@@ -49,8 +49,9 @@ save_package() {
         return
     fi
 
-    mkdir -p "$dst"
-    cp -r "$src/"* "$dst/" 2>/dev/null || true
+    rm -rf "$dst"
+    mkdir -p "$(dirname "$dst")"
+    cp -r "$src" "$dst"
     info "Saved: $name → $config_dir"
 }
 

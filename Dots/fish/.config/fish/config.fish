@@ -4,12 +4,15 @@
 alias ll 'ls -la'
 alias la 'ls -A'
 alias l 'ls -CF'
-alias gs 'git status'
+alias nv 'nvim'
+alias kl 'pkill -9'
+alias ga 'git add'
+alias gc 'git commit'
+alias gm 'git commit -m'
 alias gp 'git push'
-alias gl 'git log --oneline --graph'
-alias gd 'git diff'
 alias cat 'bat --paging=never'
 alias grep 'rg'
+alias pcm 'sudo pacman'
 
 # Environment
 set -gx EDITOR nvim
